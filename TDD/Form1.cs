@@ -39,29 +39,46 @@ namespace TDD
 
         private void addAlotBtn_Click(object sender, EventArgs e)
         {
+            workerBar.Maximum = 10000;
             for (int i = 0; i < 10000; i++)
+            {
                 workers.Add(new Worker());
+                workerBar.PerformStep();
+            }
+
+            workerBar.Value = 0;
         }
 
         private void sortBtn_Click(object sender, EventArgs e)
         {
-            var time = DateTime.Now.Millisecond;
+            var time = System.Diagnostics.Stopwatch.StartNew();
             var workers = Sort.QuickWorkers(this.workers.ToArray(),0,this.workers.Count - 1);
-            var elapsed = DateTime.Now.Millisecond;
-            timeLbl.Text = $"{elapsed - time} Milliseconds";
+            time.Stop();
+            var elapsed = time.ElapsedMilliseconds;
+            timeLbl.Text = $"{elapsed} Elapsed Milliseconds";
             this.workers = new List<Worker>(workers);
             RefreshList();
 
         }
         private void RefreshList()
         {
+            workerBar.Maximum = workers.Count;
+
             workerTable.Rows.Clear();
             foreach (var worker in workers)
+            {
                 workerTable.Rows.Add(
                     $"{worker.name} {worker.family}",
                     worker.id,
+                    worker.phone,
+                    worker.email,
+                    worker.address,
                     worker.salary
                 );
+                workerBar.PerformStep();
+            }
+
+            workerBar.Value = 0;
         }
         private void showBtn_Click(object sender, EventArgs e)
         {
@@ -83,10 +100,11 @@ namespace TDD
 
         private void bubbleSortBtn_Click(object sender, EventArgs e)
         {
-            var time = DateTime.Now.Millisecond;
+            var time = System.Diagnostics.Stopwatch.StartNew();
             var workers = Sort.BubbleWorkers(this.workers.ToArray());
-            var elapsed = DateTime.Now.Millisecond;
-            timeLbl.Text = $"{elapsed - time} Milliseconds";
+            time.Stop();
+            var elapsed = time.ElapsedMilliseconds;
+            timeLbl.Text = $"{elapsed} Elapsed Milliseconds";
             this.workers = new List<Worker>(workers);
             RefreshList();
         }

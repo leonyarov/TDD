@@ -30,8 +30,8 @@ namespace TDD
         public Worker()
         {
             id = random.Next(10, 10000).ToString();
-            name = "John";
-            family = "Doe" + count++;
+            name = RandomName();
+            family = RandomFamilyName();
             email = name + family + "@gmail.com";
             phone = random.Next(10, 1000000).ToString();
             address = randomStreet();
@@ -56,6 +56,17 @@ namespace TDD
             var s1 = street1[random.Next(street1.Length)];
             var s2 = street2[random.Next(street2.Length)];
             return s1 + " " + s2;
+        }
+
+        private string RandomName()
+        {
+            var names = new[] { "Shlomo", "Dori", "Adolf", "Xi", "Bob","Patrick","Johnny" };
+            return names[random.Next(names.Length)];
+        }
+        private string RandomFamilyName()
+        {
+            var names = new[] { "Gus", "Fourer", "Hipster", "Jinping", "SquarePants", "Star", "Bravo" };
+            return names[random.Next(names.Length)];
         }
 
         public static double CountTax(int w)
